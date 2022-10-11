@@ -1,18 +1,46 @@
-import { StyleSheet, Text, View } from 'react-native';
-
+import { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Switch,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
+import Button from "./src/components/Button";
+import MyKeyboard from "./src/components/MyKeyboard";
+import { ThemeContext } from "./src/context/ThemeContext";
+import { myColors } from "./src/styles/Colors";
 export default function App() {
+  const [theme, setTheme] = useState("light");
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <ThemeContext.Provider value={theme}>
+      <SafeAreaView
+        style={
+          theme === "light"
+            ? styles.container
+            : [styles.container, { backgroundColor: "black" }]
+        }
+      >
+        <StatusBar barStyle="default" />
+        <Switch
+          value={theme === "light"}
+          onValueChange={() => {
+            setTheme(theme === "light" ? "dark" : "light");
+          }}
+        />
+        <MyKeyboard />
+      </SafeAreaView>
+    </ThemeContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: myColors.white,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    position: "relative",
   },
 });
